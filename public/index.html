@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Costos de Impresión 3D</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script defer src="/js/main.js"></script>
+</head>
+
+<body class="bg-gray-100 p-6">
+  <div class="max-w-auto mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-2xl font-bold mb-4">Calculadora de Costos de Impresión 3D</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <div class="mb-4">
+          <label for="nombreImpresion" class="block text-sm font-medium text-gray-700">Nombre de la Impresión</label>
+          <input type="text" id="nombreImpresion"
+            class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="e.g., Yoshi">
+        </div>
+
+        <div class="mb-4">
+          <label for="nombreCliente" class="block text-sm font-medium text-gray-700">Nombre del Cliente</label>
+          <input type="text" id="nombreCliente"
+            class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="e.g., Juan Pérez">
+        </div>
+
+        <div class="mb-4">
+          <label for="material" class="block text-sm font-medium text-gray-700">Material (Filamento)</label>
+          <select id="material"
+            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            <!-- Las opciones serán cargadas dinámicamente -->
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label for="horasImpresion" class="block text-sm font-medium text-gray-700">Horas de Impresión</label>
+          <div class="flex">
+            <input type="number" id="horas" placeholder="Horas"
+              class="mt-1 block w-1/2 py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            <input type="number" id="minutos" placeholder="Minutos"
+              class="mt-1 block w-1/2 py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ml-2">
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="precioKwh" class="block text-sm font-medium text-gray-700">Precio kWh (COP)</label>
+          <input type="number" id="precioKwh"
+            class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            value="902">
+        </div>
+
+        <div class="mb-4">
+          <label for="metraje" class="block text-sm font-medium text-gray-700">Metraje del Filamento (m)</label>
+          <input type="number" id="metraje"
+            class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="e.g., 66.8">
+        </div>
+
+        <div class="mb-4">
+          <label for="peso" class="block text-sm font-medium text-gray-700">Peso del Filamento (g)</label>
+          <input type="number" id="peso"
+            class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="e.g., 199.73">
+        </div>
+
+        <div class="mb-4">
+          <label for="costoPostProcesado" class="block text-sm font-medium text-gray-700">Costo de Post-Procesado
+            (COP)</label>
+          <input type="number" id="costoPostProcesado"
+            class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+
+        <div class="mb-4">
+          <label for="costoServicios" class="block text-sm font-medium text-gray-700">Costo de Servicios (COP)</label>
+          <input type="number" id="costoServicios"
+            class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+
+        <div class="mb-4">
+          <label for="margenGanancia" class="block text-sm font-medium text-gray-700">Margen de Ganancia (%)</label>
+          <input type="number" id="margenGanancia"
+            class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            value="200">
+        </div>
+
+        <button id="calcular"
+          class="w-full bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">Calcular</button>
+        <button id="agregar"
+          class="w-full mt-2 bg-green-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">Agregar
+          a Stock</button>
+
+        <div class="mt-6">
+          <h2 class="text-xl font-bold">Resultado</h2>
+          <p id="resultado" class="mt-2 text-gray-700"></p>
+          <h2 class="text-xl font-bold mt-4">Detalles del Costo</h2>
+          <p id="costoPorHora" class="mt-2 text-gray-700"></p>
+          <p id="costoSinGanancia" class="mt-2 text-gray-700"></p>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-xl font-bold mb-4">Stock de Impresiones</h2>
+        <table class="min-w-full bg-white">
+          <thead>
+            <tr>
+              <th class="px-4 py-2">Descripción</th>
+              <th class="px-4 py-2">Horas de Impresión</th>
+              <th class="px-4 py-2">Costo Total (COP)</th>
+              <th class="px-4 py-2">Filamento Utilizado (g)</th>
+              <th class="px-4 py-2">Cliente</th>
+              <th class="px-4 py-2">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="stockTable" class="bg-white divide-y divide-gray-200">
+            <!-- Filas de la tabla -->
+          </tbody>
+        </table>
+        <div class="mt-6">
+          <h2 class="text-xl font-bold">Totales Acumulados</h2>
+          <p id="totalHoras" class="mt-2 text-gray-700"></p>
+          <p id="totalCosto" class="mt-2 text-gray-700"></p>
+          <p id="totalFilamento" class="mt-2 text-gray-700"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  document.addEventListener('DOMContentLoaded', async function () {
+    await cargarFilamentosEnSelect();
+  });
+
+  async function cargarFilamentosEnSelect() {
+    try {
+      const response = await fetch('/api/filamentos');
+      if (response.ok) {
+        const filamentos = await response.json();
+        const materialSelect = document.getElementById('material');
+        materialSelect.innerHTML = '';
+
+        filamentos.forEach(filamento => {
+          const option = document.createElement('option');
+          option.value = filamento._id;
+          option.setAttribute('data-price', filamento.costo);
+          option.textContent = `${filamento.nombre} - ${filamento.costo} COP/kg (Disponible: ${filamento.peso}g)`;
+          materialSelect.appendChild(option);
+        });
+      } else {
+        alert('Error al cargar los filamentos');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error al cargar los filamentos');
+    }
+  }
+</script>
+
+</html>
